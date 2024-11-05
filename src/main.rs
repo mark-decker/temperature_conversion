@@ -58,11 +58,11 @@ fn main() {
 
     };
 
-    let converted_temperature: (f32, char)  = loop {  //can this be done without a loop?
+    let converted_temperature: (f32, char) = {  
         if unit == "c" { 
-            break celius_to_fahrenheit(temperature)
+            celius_to_fahrenheit(temperature)
         } else {
-            break fahrenheit_to_celcius(temperature)
+            fahrenheit_to_celcius(temperature)
         }
     };
 
