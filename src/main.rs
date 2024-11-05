@@ -1,22 +1,28 @@
+//Mark Decker 5/11/2024
+//Learning Rust
+//rust-lang chapter 3
+
 use std::io;
 
 fn main() {
     println!("Input a temperature");
 
-   let temperature: f32 = loop {
+   let temperature: f32 = loop {  //use a loop to ensure we get a number within limits
+                                  //just started rust unsure if this is good method
 
-        //use a loop to ensure we get a number
-        let mut temperature = String::new();
+       let mut temperature = String::new();
     
-        io::stdin()
-            .read_line(&mut temperature)
-            .expect("Failed to read line");
+       io::stdin()
+           .read_line(&mut temperature)
+           .expect("Failed to read line");
     
-        //convert string to f32
-        let temperature: f32 = temperature
-            .trim()
-            .parse()
-            .expect("Please Enter a Number");
+       //convert string to f32
+       //this should not cause runtime error 
+       //need different solution
+       let temperature: f32 = temperature
+           .trim()
+           .parse()
+           .expect("Please Enter a Number");
 
        if temperature > -273.0 {
            break temperature
@@ -52,22 +58,23 @@ fn main() {
 
     };
 
-    println!("unit is {unit}");
-    let unit = unit.trim().to_lowercase();
+    let converted_temperature: (f32, char)  = loop {  //can this be done without a loop?
+        if unit == "c" { 
+            break celius_to_fahrenheit(temperature)
+        } else {
+            break fahrenheit_to_celcius(temperature)
+        }
+    };
 
-    if unit == "c" {
-        let temperature = celius_to_fahrenheit(temperature);
-    } else {
-        let temperature = fahrenheit_to_celcius(temperature);
-    }
+    println!("The input temperature of {temperature} in {unit} is {} in {}",converted_temperature.0,converted_temperature.1);
 
 }
 
-fn celius_to_fahrenheit(t: f32) -> f32 {
-    t * 9.0/5.0 + 32.0
+fn celius_to_fahrenheit(t: f32) -> (f32, char) {
+    (t * 9.0/5.0 + 32.0, 'f')
 }
 
-fn fahrenheit_to_celcius(t: f32) -> f32 {
+fn fahrenheit_to_celcius(t: f32) -> (f32, char) {
     let t = t - 32.0;
-    t * 5.0 / 9.0
+    (t * 5.0 / 9.0, 'c')
 }
